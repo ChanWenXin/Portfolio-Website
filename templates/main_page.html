@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <title>My Profile</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .hero {
+            background: url("https://source.unsplash.com/1600x900/?space,stars") no-repeat center center;
+            background-size: cover;
+            height: 100vh;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin: 20px 0;
+            border: 4px solid #fff;
+        }
+
+        .social-icons a {
+            margin: 0 10px;
+            color: #fff;
+            font-size: 1.5em;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: #0e76a8; /* LinkedIn blue */
+        }
+
+        .navbar-inverse {
+            background-color: #222;
+            border-color: #080808;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #111;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+ <!--   <section class="hero" id="hero">
+        <div>
+            <img src="{{ url_for('static', filename='ProfilePic2.jpg') }}" alt="Profile Image" class="profile-img">
+            <h1>Wen Xin Chan</h1>
+            <h4>Data Analyst | Aspiring DevOps Engineer</h4>
+            <div class="social-icons">
+                <a href="https://www.linkedin.com/in/wen-xin-chan-30282b1b4" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/ChanWenXin" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="mailto:wenxin.chan@icloud.com" target="_blank"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </section>
+-->
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">My Portfolio</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('skills') }}">Skills</a></li>
+                <li><a href="{{ url_for('projects') }}">Projects</a></li>
+                <li><a href="{{ url_for('education') }}">Education</a></li>
+                <li><a href="{{ url_for('experience') }}">Experience</a></li>
+                <li><a href="{{ url_for('resume') }}">Resume</a></li>
+                <li><a href="{{ url_for('comments') }}">Comment</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Log in</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Skills Section
+    <section id ="skills" style="padding: 50px 0; text-align: center;">
+        <h2>Skills</h2>
+        <p>"Repitition is the mother of skill." - Tony Robbins</p>
+        <ul style="list-style: none; padding; 0;">
+            <li> Data Analyst - 4 years experience</li>
+            <li> Python Programming - 4 years experience</li>
+            <li> Cloud Technologies - Azure, AWS</li>
+        </ul>
+    </section> -->
+
+    <!-- Projects Section
+    <section id = "projects" style ="padding: 50px 0; text-align: center; background-color: #222;">
+        <h2>Projects</h2>
+        <div style="color: #fff;">
+            <h3>Portfolio Website</h3>
+            <p>A personal portfolio website showcasing my skills and projects.</p>
+            <h3>Machine Learning Model</h3>
+            <p>Developed a predictive model to classify customer churn with 85% accuracy.</p>
+        </div>
+    </section>-->
+
+    <!-- Education Section
+    <section id="education" style="padding: 50px 0; text-align: center;">
+        <h2>Education</h2>
+        <p>Bachelor of Arts in Economics - National University of Singapore</p>
+        <p>Certifications: AWS Certified Cloud Practitioner</p>
+    </section>-->
+
+     <!-- Experience Section
+    <section id="experience" style="padding: 50px 0; text-align: center; background-color: #222;">
+        <h2>Experience</h2>
+        <p>Data Analyst at UOB - Analyzed large datasets to improve user retention and VIP conversion rates.</p>
+        <p>Data Analyst at Singlife with Aviva - Worked on cloud optimization projects.</p>
+    </section>-->
+
+    <!-- Resume Section
+    <section id="resume" style="padding: 50px 0; text-align: center;">
+        <h2>Resume</h2>
+        <p>Download my resume: <a href="{{ url_for('static', filename='WenXinChan_Resume.pdf') }}" target="_blank">Click here</a></p>
+    </section>-->
+
+    <!-- Comments Section
+    <div class="container" id="comments">
+        <h3>Comments</h3>
+        {% for comment in comments %}
+            <div class="row" style="margin-bottom: 1ex">
+                <div>{{ comment.content }}</div>
+                <div>
+                    <small>
+                        Posted
+                        {% if comment.posted %}
+                            {{ comment.posted.strftime("%A, %d %B %Y at %H:%M") }}
+                        {% else %}
+                            at an unknown time
+                        {% endif %}
+                        by
+                        {% if comment.commenter %}
+                            {{ comment.commenter.username }}
+                        {% else %}
+                            anonymous
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% if current_user.is_authenticated %}
+            <form action="." method="POST">
+                <textarea name="contents" placeholder="Enter a comment" class="form-control"></textarea>
+                <input type="submit" class="btn btn-success" value="Post comment">
+            </form>
+        {% endif %}
+    </div>-->
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Connect with me on <a href="https://www.linkedin.com/in/wen-xin-chan-30282b1b4" target="_blank">LinkedIn</a></p>
+    </div>
+</body>
+</html>
